@@ -9,13 +9,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.CheckBoxTreeCell;
+import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.stage.Stage;
 
 /**
@@ -28,8 +32,12 @@ public class MainInterfaceController implements Initializable {
     private Stage stage;
 
     private ArrayList<Journal> listOfJournals = new ArrayList<>();
+    
     @FXML
     private TreeView journalList;
+    
+    @FXML
+    private TextArea testingTextArea;
     
     /**
      * Initializes the controller class.
@@ -50,23 +58,33 @@ public class MainInterfaceController implements Initializable {
     }
     
     public void populateTreeView() {
-        TreeItem<String> treeItemRoot = new TreeItem<>("Root");
+        TreeItem<TreeItemNode> treeItemRoot = new TreeItem<>(new TreeItemNodeRoot());
         
         for(Journal journal : Journal.getJournals()) {
-            TreeItem<String> journalLeaf = new TreeItem<>(journal.getName());
+            TreeItem<TreeItemNode> journalLeaf = new TreeItem<>(journal);
             treeItemRoot.getChildren().add(journalLeaf);
             
             journal.setTreeItemParent(treeItemRoot);
             journal.setMyTreeItem(journalLeaf);
             
             for(Page page : journal.getPages()) {
-                TreeItem<String> pageLeaf = new TreeItem<>(page.getName());
+                TreeItem<TreeItemNode> pageLeaf = new TreeItem<>(page);
                 journalLeaf.getChildren().add(pageLeaf);
             }
         };
 
         journalList.setRoot(treeItemRoot);
         journalList.setEditable(true);
+        journalList.setCellFactory(TextFieldTreeCell.forTreeView());
+        
+        // Testing Selection
+        journalList.getSelectionModel().selectedItemProperty().addListener(
+            new ChangeListener<TreeItem<TreeItemNode>>() {
+                @Override
+                public void changed(ObservableValue<? extends TreeItem<TreeItemNode>> observableValue, TreeItem<TreeItemNode> oldItem, TreeItem<TreeItemNode> newItem) {
+                    testingTextArea.appendText(newItem.getValue() + "\n");
+                }
+            });
     }
     
     public void addTaskPageBtn(ActionEvent event) {
@@ -74,7 +92,7 @@ public class MainInterfaceController implements Initializable {
         String randomText = "Page " + randGen.nextInt();
         System.out.println(randomText);
         TaskPage taskPage = new TaskPage(randomText);
-        TreeItem<String> treeItemTaskPage = new TreeItem<>(taskPage.getName());
+        TreeItem<TreeItemNode> treeItemTaskPage = new TreeItem<>(taskPage);
         
         Journal.getJournals().get(0).addPage(taskPage);
         Journal.getJournals().get(0).getMyTreeItem().getChildren().add(treeItemTaskPage);

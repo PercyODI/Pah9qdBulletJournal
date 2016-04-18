@@ -10,7 +10,7 @@ package pah9qdbulletjournal;
 //  @ Author : 
 //
 //
-public class Page {
+public class Page implements TreeItemNode{
     private String name;
     private String description;
     

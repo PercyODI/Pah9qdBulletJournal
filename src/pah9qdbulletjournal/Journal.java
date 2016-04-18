@@ -12,7 +12,7 @@ import javafx.scene.control.TreeItem;
 //  @ Author : 
 //
 //
-public class Journal {
+public class Journal implements TreeItemNode{
     private String name;
     private String description;
     private ArrayList<Page> pages = new ArrayList<>();
