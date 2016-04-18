@@ -7,7 +7,9 @@ package pah9qdbulletjournal;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
@@ -42,7 +44,8 @@ public class MainInterfaceController implements Initializable {
         
         // Fake journals and pages for testing
         Journal fakeJournalOne = new Journal("Fake Journal One");
-        fakeJournalOne.addPage(new Page("Fake Page One"));
+        fakeJournalOne.addPage(new TaskPage("Fake Page One"));
+        fakeJournalOne.addPage(new TaskPage("Fake Page Two", "With a Description!"));
         populateTreeView();
     }
     
@@ -53,24 +56,28 @@ public class MainInterfaceController implements Initializable {
             TreeItem<String> journalLeaf = new TreeItem<>(journal.getName());
             treeItemRoot.getChildren().add(journalLeaf);
             
+            journal.setTreeItemParent(treeItemRoot);
+            journal.setMyTreeItem(journalLeaf);
+            
             for(Page page : journal.getPages()) {
                 TreeItem<String> pageLeaf = new TreeItem<>(page.getName());
                 journalLeaf.getChildren().add(pageLeaf);
             }
         };
-        
-        TreeItem<String> nodeItemA = new TreeItem<>("Item A");
-        TreeItem<String> nodeItemB = new TreeItem<>("Item B");
-        TreeItem<String> nodeItemC = new TreeItem<>("Item C");
-        treeItemRoot.getChildren().addAll(nodeItemA, nodeItemB, nodeItemC);
-         
-        TreeItem<String> nodeItemA1 = new TreeItem<>("Item A1");
-        TreeItem<String> nodeItemA2 = new TreeItem<>("Item A2");
-        TreeItem<String> nodeItemA3 = new TreeItem<>("Item A3");
-        nodeItemA.getChildren().addAll(nodeItemA1, nodeItemA2, nodeItemA3);
 
         journalList.setRoot(treeItemRoot);
         journalList.setEditable(true);
+    }
+    
+    public void addTaskPageBtn(ActionEvent event) {
+        Random randGen = new Random();
+        String randomText = "Page " + randGen.nextInt();
+        System.out.println(randomText);
+        TaskPage taskPage = new TaskPage(randomText);
+        TreeItem<String> treeItemTaskPage = new TreeItem<>(taskPage.getName());
+        
+        Journal.getJournals().get(0).addPage(taskPage);
+        Journal.getJournals().get(0).getMyTreeItem().getChildren().add(treeItemTaskPage);
     }
     
 }

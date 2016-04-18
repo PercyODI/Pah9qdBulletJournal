@@ -14,6 +14,19 @@ import java.util.ArrayList;
 
 public class TaskPage extends Page{
     private ArrayList<Task> tasks;
+    
+    public TaskPage() {
+        
+    }
+    
+    public TaskPage(String name) {
+        super(name);
+    }
+    
+    public TaskPage(String name, String description) {
+        super(name, description);
+    }
+    
     public void addTask(String name) {
         tasks.add(new Task(name));
     }
