@@ -12,9 +12,6 @@ import java.util.ArrayList;
 //
 //
 
-
-
-
 public class TaskPage extends Page{
     private ArrayList<Task> tasks;
     public void addTask(String name) {
@@ -23,4 +20,26 @@ public class TaskPage extends Page{
     
     public void removeTask(String task) {
     }
+    
+//    CheckBoxTreeItem<String> treeItemRoot = new CheckBoxTreeItem<>("Root");
+//        
+////        CheckBoxTreeItem<String> nodeItemA = new CheckBoxTreeItem<>("Item A");
+////        CheckBoxTreeItem<String> nodeItemB = new CheckBoxTreeItem<>("Item B");
+////        CheckBoxTreeItem<String> nodeItemC = new CheckBoxTreeItem<>("Item C");
+////        treeItemRoot.getChildren().addAll(nodeItemA, nodeItemB, nodeItemC);
+////         
+////        CheckBoxTreeItem<String> nodeItemA1 = new CheckBoxTreeItem<>("Item A1");
+////        CheckBoxTreeItem<String> nodeItemA2 = new CheckBoxTreeItem<>("Item A2");
+////        CheckBoxTreeItem<String> nodeItemA3 = new CheckBoxTreeItem<>("Item A3");
+////        nodeItemA.getChildren().addAll(nodeItemA1, nodeItemA2, nodeItemA3);
+//        
+//        journalList.setCellFactory(CheckBoxTreeCell.<String>forTreeView());    
+//        for (int i = 0; i < 8; i++) {
+//            final CheckBoxTreeItem<String> checkBoxTreeItem = 
+//                new CheckBoxTreeItem<>("Sample" + (i+1));
+//                    treeItemRoot.getChildren().add(checkBoxTreeItem);   
+//        }
+//
+//        journalList.setRoot(treeItemRoot);
+//        journalList.setEditable(true);
 }

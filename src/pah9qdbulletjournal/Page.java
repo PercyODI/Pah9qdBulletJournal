@@ -11,6 +11,38 @@ package pah9qdbulletjournal;
 //
 //
 public class Page {
+    private String name;
+    private String description;
+    
+    public Page() {
+        
+    }
+    
+    public Page(String name) {
+        setName(name);
+    }
+    
+    public Page(String name, String description) {
+        this(name);
+        setDescription(description);
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
     public void addToJournal(Journal journal) {
         journal.addPage(this);
     }

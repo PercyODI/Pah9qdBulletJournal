@@ -6,10 +6,11 @@
 package pah9qdbulletjournal;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBoxTreeItem;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.CheckBoxTreeCell;
@@ -24,6 +25,7 @@ public class MainInterfaceController implements Initializable {
 
     private Stage stage;
 
+    private ArrayList<Journal> listOfJournals = new ArrayList<>();
     @FXML
     private TreeView journalList;
     
@@ -38,28 +40,34 @@ public class MainInterfaceController implements Initializable {
     void ready(Stage stage) {
         this.stage = stage;
         
+        // Fake journals and pages for testing
+        Journal fakeJournalOne = new Journal("Fake Journal One");
+        fakeJournalOne.addPage(new Page("Fake Page One"));
         populateTreeView();
     }
     
     public void populateTreeView() {
-        CheckBoxTreeItem<String> treeItemRoot = new CheckBoxTreeItem<>("Root");
+        TreeItem<String> treeItemRoot = new TreeItem<>("Root");
         
-//        CheckBoxTreeItem<String> nodeItemA = new CheckBoxTreeItem<>("Item A");
-//        CheckBoxTreeItem<String> nodeItemB = new CheckBoxTreeItem<>("Item B");
-//        CheckBoxTreeItem<String> nodeItemC = new CheckBoxTreeItem<>("Item C");
-//        treeItemRoot.getChildren().addAll(nodeItemA, nodeItemB, nodeItemC);
-//         
-//        CheckBoxTreeItem<String> nodeItemA1 = new CheckBoxTreeItem<>("Item A1");
-//        CheckBoxTreeItem<String> nodeItemA2 = new CheckBoxTreeItem<>("Item A2");
-//        CheckBoxTreeItem<String> nodeItemA3 = new CheckBoxTreeItem<>("Item A3");
-//        nodeItemA.getChildren().addAll(nodeItemA1, nodeItemA2, nodeItemA3);
+        for(Journal journal : Journal.getJournals()) {
+            TreeItem<String> journalLeaf = new TreeItem<>(journal.getName());
+            treeItemRoot.getChildren().add(journalLeaf);
+            
+            for(Page page : journal.getPages()) {
+                TreeItem<String> pageLeaf = new TreeItem<>(page.getName());
+                journalLeaf.getChildren().add(pageLeaf);
+            }
+        };
         
-        journalList.setCellFactory(CheckBoxTreeCell.<String>forTreeView());    
-        for (int i = 0; i < 8; i++) {
-            final CheckBoxTreeItem<String> checkBoxTreeItem = 
-                new CheckBoxTreeItem<>("Sample" + (i+1));
-                    treeItemRoot.getChildren().add(checkBoxTreeItem);   
-        }
+        TreeItem<String> nodeItemA = new TreeItem<>("Item A");
+        TreeItem<String> nodeItemB = new TreeItem<>("Item B");
+        TreeItem<String> nodeItemC = new TreeItem<>("Item C");
+        treeItemRoot.getChildren().addAll(nodeItemA, nodeItemB, nodeItemC);
+         
+        TreeItem<String> nodeItemA1 = new TreeItem<>("Item A1");
+        TreeItem<String> nodeItemA2 = new TreeItem<>("Item A2");
+        TreeItem<String> nodeItemA3 = new TreeItem<>("Item A3");
+        nodeItemA.getChildren().addAll(nodeItemA1, nodeItemA2, nodeItemA3);
 
         journalList.setRoot(treeItemRoot);
         journalList.setEditable(true);

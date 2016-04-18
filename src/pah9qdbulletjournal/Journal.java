@@ -12,14 +12,51 @@ import java.util.ArrayList;
 //
 //
 public class Journal {
-    private ArrayList<Page> pages;
-    private static ArrayList<Journal> journals;
+    private String name;
+    private String description;
+    private ArrayList<Page> pages = new ArrayList<>();
+    private static ArrayList<Journal> journals = new ArrayList<>();
+    
+    public Journal() {
+        journals.add(this);
+    }
+    
+    public Journal(String name) {
+        this();
+        setName(name);
+    }
+    
+    public Journal(String name, String description) {
+        this(name);
+        setDescription(description);
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
     public ArrayList<Page> getPages() {
         return pages;
     }
     
     public void addPage(Page page) {
-        pages.add(page);
+        if(page == null) {
+            System.out.println("Null Page");
+        } else {
+            pages.add(page);
+        }
     }
     
     public void removePage(Page page) {
@@ -27,8 +64,18 @@ public class Journal {
     }
     
     public void saveJournalToFile() {
+        
     }
     
     public void loadJournalFromFile() {
     }
+    
+    public static ArrayList<Journal> getJournals() {
+        return journals;
+    }
+    
+    public static void addJournal(Journal journal) {
+        Journal.journals.add(journal);
+    }
+
 }
