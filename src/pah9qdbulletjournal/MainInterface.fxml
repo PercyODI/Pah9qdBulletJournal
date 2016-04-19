@@ -29,9 +29,18 @@
           </Menu>
         </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+      <SplitPane dividerPositions="0.25" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <items>
-            <TreeView fx:id="journalList" prefHeight="373.0" prefWidth="140.0" showRoot="false" />
+            <Accordion>
+              <panes>
+                <TitledPane text="untitled 1">
+                     <content>
+                        <ListView prefHeight="10.0" prefWidth="10.0" />
+                     </content>
+                  </TitledPane>
+                <TitledPane animated="false" text="untitled 2" />
+              </panes>
+            </Accordion>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <TextArea fx:id="testingTextArea" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" />
