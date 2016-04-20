@@ -58,13 +58,18 @@ public class Journal{
     }
     
     public void addPage(Page page) {
-        if(page == null) {
-            System.out.println("Null Page");
+        if(page != null) {
+            if(!pages.contains(page)) {
+                pages.add(page);
+            }
+            if(page.getBelongsToJournal() != this) {
+                page.setBelongsToJournal(this);
+            }
         } else {
-            pages.add(page);
+            System.out.println("Error in addPage of Journal " + getName());
         }
         
-        page.setMyJournal(this);
+        
     }
     
     public void removePage(Page page) {
