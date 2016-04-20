@@ -10,12 +10,12 @@ package pah9qdbulletjournal;
 //  @ Author : 
 //
 //
-public class Page implements TreeItemNode{
+public abstract class Page{
     private String name;
     private String description;
+    private Journal myJournal;
     
     public Page() {
-        
     }
     
     public Page(String name) {
@@ -45,9 +45,18 @@ public class Page implements TreeItemNode{
     
     public void addToJournal(Journal journal) {
         journal.addPage(this);
+        myJournal = journal;
     }
     
     public void removeFromJournal(Journal journal) {
         journal.removePage(this);
+    }
+    
+    public Journal getMyJournal() {
+        return myJournal;
+    }
+    
+    public void setMyJournal(Journal myJournal) {
+        this.myJournal = myJournal;
     }
 }
