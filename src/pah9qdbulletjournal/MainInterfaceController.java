@@ -5,6 +5,7 @@
  */
 package pah9qdbulletjournal;
 
+import taskpagepackage.TaskPage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class MainInterfaceController implements Initializable {
                     Parent root = (Parent) loader.load();
                     PageUIController controller = loader.getController();
                     controller.setPage(newValue); // Pass the page to the controller
-                    controller.ready();
+                    controller.ready(null);
                     scrollPane.setContent((Pane)root);
                 } catch (IOException ex) {
                     Logger.getLogger(MainInterfaceController.class.getName()).log(Level.SEVERE, null, ex);

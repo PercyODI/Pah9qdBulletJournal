@@ -5,11 +5,13 @@
  */
 package pah9qdbulletjournal;
 
+import javafx.stage.Stage;
+
 /**
  *
  * @author pah9qd
  */
 public interface PageUIController {
-    public void ready();
+    public void ready(Stage mainStage);
     public void setPage(Page page);
 }

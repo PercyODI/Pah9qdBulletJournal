@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pah9qdbulletjournal;
+package taskpagepackage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,12 +18,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import pah9qdbulletjournal.Page;
+import pah9qdbulletjournal.PageUIController;
+import pah9qdbulletjournal.Task;
 
 /**
  * FXML Controller class
@@ -33,6 +39,7 @@ import javafx.util.StringConverter;
 public class TaskPageUIController implements Initializable, PageUIController{
     
     private TaskPage taskPage;
+    private Stage mainStage;
     
     @FXML
     private ListView taskListView;
@@ -46,7 +53,9 @@ public class TaskPageUIController implements Initializable, PageUIController{
     }
     
     @Override
-    public void ready() {
+    public void ready(Stage mainStage) {
+        this.mainStage = mainStage;
+        
         taskListView.setItems(taskPage.getTasks());
         
         // Turns the ListView into a checkbox list, while still displaying
@@ -74,9 +83,13 @@ public class TaskPageUIController implements Initializable, PageUIController{
         taskPage = (TaskPage)page;
     }
     
-    public void checkAllTasks() {
-        for(Task task : taskPage.getTasks()) {
-            System.out.println(task.getName() + " is currently " + task.getCompleted());
-        }
+    public void showNewTaskWindow() throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("NewTaskUI.fxml"));
+        stage.setScene(new Scene(root));
+        stage.setTitle("Add a New Task");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
     }
 }
