@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -18,7 +20,8 @@ import javafx.scene.layout.Pane;
 //
 
 public class TaskPage extends Page{
-    private ArrayList<Task> tasks;
+    private ObservableList<Task> tasks = FXCollections.observableArrayList();
+    private final static String FXMLFILENAME = "TaskPageUI.fxml"; //TODO is there a better way to find the fxml's dynamically?
     
     public TaskPage() {
         
@@ -32,6 +35,10 @@ public class TaskPage extends Page{
         super(name, description);
     }
     
+    public ObservableList<Task> getTasks() {
+        return tasks;
+    }
+    
     public void addTask(Task task) {
         tasks.add(task);
     }
@@ -41,17 +48,7 @@ public class TaskPage extends Page{
     }
 
     @Override
-    public Pane getFXPane() {
-        try {
-            return (Pane)FXMLLoader.load(getClass().getResource("TaskPageUI.fxml"));
-        } catch (IOException ex) {
-            Logger.getLogger(TaskPage.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    @Override
-    public Pane setFXPane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public FXMLLoader getFXMLLoader() {
+        return new FXMLLoader(getClass().getResource(TaskPage.FXMLFILENAME));
     }
 }

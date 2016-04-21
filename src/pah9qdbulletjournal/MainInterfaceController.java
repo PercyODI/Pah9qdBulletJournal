@@ -5,18 +5,24 @@
  */
 package pah9qdbulletjournal;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
@@ -49,7 +55,10 @@ public class MainInterfaceController implements Initializable {
     private SplitPane splitPane;
     
     @FXML
-    private Pane pagePane;
+    private ScrollPane scrollPane;
+    
+//    @FXML
+//    private Pane pagePane;
     
     /**
      * Initializes the controller class.
@@ -67,7 +76,10 @@ public class MainInterfaceController implements Initializable {
         addJournalToAccordian(fakeJournalOne);
         Journal fakeJournalTwo = new Journal("Fake Journal Two");
         addJournalToAccordian(fakeJournalTwo);
-        fakeJournalOne.addPage(new TaskPage("Fake Page One"));
+        TaskPage taskPageOne = new TaskPage("Fake Page One");
+        taskPageOne.addTask(new Task("Create a new journal"));
+        taskPageOne.addTask(new Task("Delete a journal!"));
+        fakeJournalOne.addPage(taskPageOne);
         fakeJournalOne.addPage(new TaskPage("Fake Page Two", "With a Description!"));
     }
     
@@ -94,8 +106,17 @@ public class MainInterfaceController implements Initializable {
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Page>() {
             @Override
             public void changed(ObservableValue<? extends Page> observable, Page oldValue, Page newValue) {
-                splitPane.getItems().remove(pagePane);
-                splitPane.getItems().add(newValue.getFXPane());
+                try {
+                    System.out.println(newValue);
+                    FXMLLoader loader = newValue.getFXMLLoader();
+                    Parent root = (Parent) loader.load();
+                    PageUIController controller = loader.getController();
+                    controller.setPage(newValue); // Pass the page to the controller
+                    controller.ready();
+                    scrollPane.setContent((Pane)root);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainInterfaceController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

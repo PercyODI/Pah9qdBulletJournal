@@ -29,15 +29,19 @@
           </Menu>
         </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.25" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+      <SplitPane fx:id="splitPane" dividerPositions="0.25" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <items>
             <Accordion fx:id="journalAccordion" />
-            <AnchorPane fx:id="pagePane" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <TextArea fx:id="testingTextArea" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="417.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <Button layoutX="5.0" layoutY="213.0" mnemonicParsing="false" onAction="#addRandomPage" text="Button" AnchorPane.leftAnchor="5.0" />
-               </children>
-            </AnchorPane>
+            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" prefViewportHeight="373.0" prefViewportWidth="445.0">
+               <content>
+                  <AnchorPane fx:id="pagePane" prefHeight="254.0" prefWidth="441.0">
+                     <children>
+                        <TextArea fx:id="testingTextArea" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="417.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                        <Button layoutX="5.0" layoutY="213.0" mnemonicParsing="false" onAction="#addRandomPage" text="Button" AnchorPane.leftAnchor="5.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
         </items>
       </SplitPane>
    </children>

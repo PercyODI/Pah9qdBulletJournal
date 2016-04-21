@@ -1,6 +1,7 @@
 package pah9qdbulletjournal;
 
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import pah9qdbulletjournal.Page;
 
@@ -21,12 +22,7 @@ import pah9qdbulletjournal.Page;
 public class MonthCalendar extends Page {
 
     @Override
-    public Pane getFXPane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Pane setFXPane() {
+    public FXMLLoader getFXMLLoader() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

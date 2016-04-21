@@ -2,6 +2,7 @@ package pah9qdbulletjournal;
 
 //
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 //
@@ -63,6 +64,5 @@ public abstract class Page{
         this.belongsToJournal = belongsToJournal;
     }
     
-    public abstract Pane getFXPane();
-    public abstract Pane setFXPane();
+    public abstract FXMLLoader getFXMLLoader();
 }

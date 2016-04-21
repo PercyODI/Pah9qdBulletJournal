@@ -5,12 +5,11 @@
  */
 package pah9qdbulletjournal;
 
-import javafx.scene.layout.Pane;
-
 /**
  *
- * @author pears
+ * @author pah9qd
  */
 public interface PageUIController {
-    public Pane getFXPane();
+    public void ready();
+    public void setPage(Page page);
 }
