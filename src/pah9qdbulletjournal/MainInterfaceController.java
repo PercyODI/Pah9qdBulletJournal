@@ -5,7 +5,7 @@
  */
 package pah9qdbulletjournal;
 
-import taskpagepackage.TaskPage;
+import com.app.taskpage.TaskPage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;

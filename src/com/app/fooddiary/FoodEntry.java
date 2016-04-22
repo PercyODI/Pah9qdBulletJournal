@@ -1,4 +1,4 @@
-package pah9qdbulletjournal;
+package com.app.fooddiary;
 
 //
 //
