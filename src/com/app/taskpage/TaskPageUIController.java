@@ -8,12 +8,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,7 +24,6 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import pah9qdbulletjournal.Page;
 import pah9qdbulletjournal.PageUIController;
-import pah9qdbulletjournal.Task;
 
 /**
  * FXML Controller class
@@ -30,8 +32,8 @@ import pah9qdbulletjournal.Task;
  */
 public class TaskPageUIController implements Initializable, PageUIController{
     
-    private TaskPage taskPage;
     private Stage mainStage;
+    private TaskPage taskPage;
     
     @FXML
     private ListView taskListView;
@@ -45,8 +47,9 @@ public class TaskPageUIController implements Initializable, PageUIController{
     }
     
     @Override
-    public void ready(Stage mainStage) {
+    public void ready(Stage mainStage, Page page) {
         this.mainStage = mainStage;
+        taskPage = (TaskPage)page;
         
         taskListView.setItems(taskPage.getTasks());
         
@@ -69,15 +72,15 @@ public class TaskPageUIController implements Initializable, PageUIController{
             }
         }));
     }
-
-    @Override
-    public void setPage(Page page) {
-        taskPage = (TaskPage)page;
-    }
     
     public void showNewTaskWindow() throws IOException {
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("NewTaskUI.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("NewTaskUI.fxml"));
+        Parent root = (Parent) loader.load();
+        NewTaskUIController controller = loader.getController();
+        
+        controller.ready(taskPage);
+        
         stage.setScene(new Scene(root));
         stage.setTitle("Add a New Task");
         stage.initModality(Modality.APPLICATION_MODAL);
