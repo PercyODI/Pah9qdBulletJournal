@@ -87,4 +87,8 @@ public class TaskPageUIController implements Initializable, PageUIController{
         stage.initOwner(mainStage);
         stage.showAndWait();
     }
+    
+    public void handleRemoveTask() {
+        taskPage.removeTask((Task)taskListView.getSelectionModel().getSelectedItem());
+    }
 }

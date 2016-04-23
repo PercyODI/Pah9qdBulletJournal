@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.taskpage.TaskPageUIController">
+<VBox prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.taskpage.NewTaskUIController">
    <children>
       <Label alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" text="Add a New Task" textAlignment="CENTER">
          <font>
@@ -38,12 +38,12 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Label>
-            <TextField prefWidth="250.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+            <TextField fx:id="name" prefWidth="250.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+            <TextField fx:id="description" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
@@ -55,12 +55,12 @@
       </GridPane>
       <HBox alignment="TOP_RIGHT">
          <children>
-            <Button mnemonicParsing="false" text="Cancel">
+            <Button mnemonicParsing="false" onAction="#closeWindow" text="Cancel">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Add Task">
+            <Button mnemonicParsing="false" onAction="#handleAddTask" text="Add Task">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>

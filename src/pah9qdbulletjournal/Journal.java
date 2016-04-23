@@ -1,5 +1,11 @@
 package pah9qdbulletjournal;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,9 +24,14 @@ import javafx.scene.control.TitledPane;
 public class Journal{
     private String name;
     private String description;
+    
+    @JsonManagedReference
     private ObservableList<Page> pages = FXCollections.observableArrayList();
+    
+    @JsonIgnore
     private static ArrayList<Journal> journals = new ArrayList<>();
     
+    @JsonIgnore
     private TitledPane titledPane;
     
     public Journal() {
@@ -76,8 +87,12 @@ public class Journal{
         pages.remove(page);
     }
     
-    public void saveJournalToFile() {
-        
+    public void saveJournalToFile() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File("C:\\Users\\pah9qd\\Documents\\testJournal.json"), this);
+//        ObjectMapper mapper = new ObjectMapper();
+//        String json = mapper.writeValueAsString(this);
+//        System.out.println(json);
     }
     
     public void loadJournalFromFile() {

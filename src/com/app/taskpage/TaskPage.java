@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import pah9qdbulletjournal.Page;
-import pah9qdbulletjournal.Task;
 
 //
 //  @ Project : Untitled
@@ -40,7 +39,7 @@ public class TaskPage extends Page{
         tasks.add(task);
     }
     
-    public void removeTask(String task) {
+    public void removeTask(Task task) {
         tasks.remove(task);
     }
 

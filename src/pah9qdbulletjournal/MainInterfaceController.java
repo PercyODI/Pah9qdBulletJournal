@@ -5,6 +5,7 @@
  */
 package pah9qdbulletjournal;
 
+import com.app.taskpage.Task;
 import com.app.taskpage.TaskPage;
 import java.io.IOException;
 import java.net.URL;
@@ -15,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,11 +27,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.CheckBoxTreeCell;
-import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -75,6 +70,7 @@ public class MainInterfaceController implements Initializable {
         // Fake journals and pages for testing
         Journal fakeJournalOne = new Journal("Fake Journal One");
         addJournalToAccordian(fakeJournalOne);
+        listOfJournals.add(fakeJournalOne);
         Journal fakeJournalTwo = new Journal("Fake Journal Two");
         addJournalToAccordian(fakeJournalTwo);
         TaskPage taskPageOne = new TaskPage("Fake Page One");
@@ -112,8 +108,7 @@ public class MainInterfaceController implements Initializable {
                     FXMLLoader loader = newValue.getFXMLLoader();
                     Parent root = (Parent) loader.load();
                     PageUIController controller = loader.getController();
-                    controller.setPage(newValue); // Pass the page to the controller
-                    controller.ready(null);
+                    controller.ready(stage, newValue);
                     scrollPane.setContent((Pane)root);
                 } catch (IOException ex) {
                     Logger.getLogger(MainInterfaceController.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,9 +117,7 @@ public class MainInterfaceController implements Initializable {
         });
     }
     
-    public void addRandomPage() {
-        Random rnd = new Random();
-        Journal.getJournals().get(0).addPage(new TaskPage("Page " + rnd.nextInt(100)));
+    public void handleSaveJournal() throws IOException {
+        listOfJournals.get(0).saveJournalToFile();
     }
-    
 }

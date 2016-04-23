@@ -1,4 +1,4 @@
-package pah9qdbulletjournal;
+package com.app.taskpage;
 
 //
 
@@ -19,8 +19,18 @@ public class Task {
     private String description;
     private BooleanProperty completed = new SimpleBooleanProperty();
 
-    Task(String name) {
+    public Task() {
+        
+    }
+    
+    public Task(String name) {
+        this();
         this.name = name;
+    }
+    
+    public Task(String name, String description) {
+        this(name);
+        this.description = description;
     }
     public String getName() {
         return name;

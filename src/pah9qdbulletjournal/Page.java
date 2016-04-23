@@ -2,6 +2,8 @@ package pah9qdbulletjournal;
 
 //
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -17,7 +19,11 @@ import javafx.scene.layout.Pane;
 public abstract class Page{
     private String name;
     private String description;
+    
+    @JsonBackReference
     private Journal belongsToJournal;
+    
+    @JsonIgnore
     private Pane fxPane;
     
     public Page() {
