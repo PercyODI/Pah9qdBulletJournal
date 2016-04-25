@@ -23,8 +23,6 @@ public abstract class Page{
     @JsonBackReference
     private Journal belongsToJournal;
     
-    @JsonIgnore
-    private Pane fxPane;
     
     public Page() {
     }
