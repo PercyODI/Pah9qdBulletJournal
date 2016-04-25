@@ -32,6 +32,11 @@
               <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Debug">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleDebug" text="Debug Action 1" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
       <SplitPane fx:id="splitPane" dividerPositions="0.25" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">

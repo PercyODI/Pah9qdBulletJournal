@@ -87,9 +87,9 @@ public class Journal{
         pages.remove(page);
     }
     
-    public void saveJournalToFile() throws IOException {
+    public void saveJournalToFile(File file) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(new File("C:\\Users\\pah9qd\\Documents\\testJournal.json"), this);
+        mapper.writeValue(file, this);
 //        ObjectMapper mapper = new ObjectMapper();
 //        String json = mapper.writeValueAsString(this);
 //        System.out.println(json);

@@ -7,6 +7,9 @@ package pah9qdbulletjournal;
 
 import com.app.taskpage.Task;
 import com.app.taskpage.TaskPage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,6 +32,8 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
@@ -82,7 +88,11 @@ public class MainInterfaceController implements Initializable {
     
     public void addJournalToAccordian(Journal journal) {
         ListView<Page> listView = new ListView<>(journal.getPages());
-        journal.setTitledPane(new TitledPane(journal.getName(), listView));
+        
+        JournalTitledPane titledPage = new JournalTitledPane(journal.getName(), listView);
+        titledPage.setJournal(journal);
+        
+        journal.setTitledPane(titledPage);
         journalAccordion.getPanes().add(journal.getTitledPane());            
 
         // Each ListView needs this CellFactory set to hold the Pages and
@@ -118,6 +128,30 @@ public class MainInterfaceController implements Initializable {
     }
     
     public void handleSaveJournal() throws IOException {
-        listOfJournals.get(0).saveJournalToFile();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("JSON File", "*.json"));
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            try
+            {
+                if(journalAccordion.getExpandedPane() == null) {
+                    System.out.println("No Journal Selected");
+                } else {
+                    ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal().saveJournalToFile(file);
+                }
+            }catch(IOException ioex)
+            {
+               String message = "Exception occurred while opening " + file.getPath();
+               System.out.println(message);
+            }
+        }
+    }
+    
+    public void handleDebug(ActionEvent event) {
+        if(journalAccordion.getExpandedPane() == null) {
+            System.out.println("No Journal Selected");
+        } else {
+            System.out.println(((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal().getName());
+        }
     }
 }
