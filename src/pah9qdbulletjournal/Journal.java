@@ -92,7 +92,12 @@ public class Journal{
     public void saveJournalToFile(File file) throws IOException {
         Writer writer = new FileWriter(file);
 //        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        Gson gson = new Gson();
+        
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Page.class, new PageAdapter());
+
+        Gson gson = gsonBuilder.create();
+        
         writer.write(gson.toJson(this));
         writer.close();
     }

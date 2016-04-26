@@ -161,11 +161,14 @@ public class MainInterfaceController implements Initializable {
                 FileReader fileReader = new FileReader(file);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
                 while((line = bufferedReader.readLine()) != null) {
-                    jsonStr.concat(line);
+                    jsonStr += line;
                 }
                 System.out.println(jsonStr);
                 bufferedReader.close();
-                Gson gson = new Gson();
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                gsonBuilder.registerTypeAdapter(Page.class, new PageAdapter());
+                
+                Gson gson = gsonBuilder.create();
                 Journal openJournal = gson.fromJson(jsonStr, Journal.class);
                 addJournalToAccordian(openJournal);
                 System.out.println(openJournal);
@@ -175,7 +178,7 @@ public class MainInterfaceController implements Initializable {
 //                addJournalToAccordian(openJournal);
             }catch(Exception ex){
 //               String message = "Exception occurred while opening " + file.getPath() + "\nError: " + ioex;
-//               System.out.println(message);
+               System.out.println(ex.getMessage());
             }
         }
     }

@@ -23,7 +23,7 @@ public class Task {
     private String description;
     
     @Expose
-    private BooleanProperty completed = new SimpleBooleanProperty();
+    private transient BooleanProperty completed = new SimpleBooleanProperty();
 
     public Task() {
         
