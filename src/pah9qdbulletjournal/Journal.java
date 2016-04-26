@@ -3,7 +3,9 @@ package pah9qdbulletjournal;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ public class Journal{
     private String description;
     
     @JsonManagedReference
+//    @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
+    @JsonDeserialize(as=FXCollections.observableArrayList().class)
     private ObservableList<Page> pages = FXCollections.observableArrayList();
     
     @JsonIgnore

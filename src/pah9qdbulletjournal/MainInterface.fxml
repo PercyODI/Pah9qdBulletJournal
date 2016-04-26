@@ -20,6 +20,7 @@
             <Menu mnemonicParsing="false" text="Journal">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#handleSaveJournal" text="Save Journal" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpenJournal" text="Open Journal" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Edit">

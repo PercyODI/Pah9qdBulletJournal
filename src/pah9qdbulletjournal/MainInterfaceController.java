@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,6 +7,8 @@ package pah9qdbulletjournal;
 
 import com.app.taskpage.Task;
 import com.app.taskpage.TaskPage;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -128,20 +130,39 @@ public class MainInterfaceController implements Initializable {
     }
     
     public void handleSaveJournal() throws IOException {
+        if(journalAccordion.getExpandedPane() == null) {
+            System.out.println("No Journal Selected");
+        } else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new ExtensionFilter("JSON File", "*.json"));
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null) {
+                try
+                {
+                    ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal().saveJournalToFile(file);
+                }catch(IOException ioex)
+                {
+                   String message = "Exception occurred while opening " + file.getPath();
+                   System.out.println(message);
+                }
+            }
+        }
+    }
+    
+    public void handleOpenJournal() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new ExtensionFilter("JSON File", "*.json"));
-        File file = fileChooser.showSaveDialog(stage);
+        File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             try
             {
-                if(journalAccordion.getExpandedPane() == null) {
-                    System.out.println("No Journal Selected");
-                } else {
-                    ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal().saveJournalToFile(file);
-                }
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.registerModule(new Jdk8Module());
+                Journal openJournal = mapper.readValue(file, Journal.class);
+                addJournalToAccordian(openJournal);
             }catch(IOException ioex)
             {
-               String message = "Exception occurred while opening " + file.getPath();
+               String message = "Exception occurred while opening " + file.getPath() + "\nError: " + ioex;
                System.out.println(message);
             }
         }
