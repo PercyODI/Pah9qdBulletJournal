@@ -32,9 +32,9 @@ public class Journal{
     @Expose
     private ObservableList<Page> pages = FXCollections.observableArrayList();
     
-    private static ArrayList<Journal> journals = new ArrayList<>();
+    private transient static ArrayList<Journal> journals = new ArrayList<>();
     
-    private TitledPane titledPane;
+    private transient TitledPane titledPane;
     
     public Journal() {
         journals.add(this);
@@ -93,7 +93,8 @@ public class Journal{
         Writer writer = new FileWriter(file);
 //        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         Gson gson = new Gson();
-        System.out.println(gson.toJson(this));
+        writer.write(gson.toJson(this));
+        writer.close();
     }
     
     public void loadJournalFromFile() {

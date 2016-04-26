@@ -7,8 +7,8 @@ package pah9qdbulletjournal;
 
 import com.app.taskpage.Task;
 import com.app.taskpage.TaskPage;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -76,7 +76,7 @@ public class MainInterfaceController implements Initializable {
         this.stage = stage;
         
         // Fake journals and pages for testing
-        Journal fakeJournalOne = new Journal("Fake Journal One");
+        Journal fakeJournalOne = new Journal("Fake Journal One", "Test Des");
         addJournalToAccordian(fakeJournalOne);
         listOfJournals.add(fakeJournalOne);
         Journal fakeJournalTwo = new Journal("Fake Journal Two");
@@ -156,14 +156,26 @@ public class MainInterfaceController implements Initializable {
         if (file != null) {
             try
             {
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.registerModule(new Jdk8Module());
-                Journal openJournal = mapper.readValue(file, Journal.class);
+                String jsonStr = "";
+                String line = null;
+                FileReader fileReader = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                while((line = bufferedReader.readLine()) != null) {
+                    jsonStr.concat(line);
+                }
+                System.out.println(jsonStr);
+                bufferedReader.close();
+                Gson gson = new Gson();
+                Journal openJournal = gson.fromJson(jsonStr, Journal.class);
                 addJournalToAccordian(openJournal);
-            }catch(IOException ioex)
-            {
-               String message = "Exception occurred while opening " + file.getPath() + "\nError: " + ioex;
-               System.out.println(message);
+                System.out.println(openJournal);
+//                ObjectMapper mapper = new ObjectMapper();
+//                mapper.registerModule(new Jdk8Module());
+//                Journal openJournal = mapper.readValue(file, Journal.class);
+//                addJournalToAccordian(openJournal);
+            }catch(Exception ex){
+//               String message = "Exception occurred while opening " + file.getPath() + "\nError: " + ioex;
+//               System.out.println(message);
             }
         }
     }

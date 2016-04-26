@@ -2,9 +2,7 @@ package pah9qdbulletjournal;
 
 //
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.google.gson.annotations.Expose;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -17,13 +15,15 @@ import javafx.scene.layout.Pane;
 //  @ Author : 
 //
 //
-@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
 public abstract class Page{
+    @Expose
     private String name;
+    
+    @Expose
     private String description;
     
-    @JsonBackReference
-    private Journal belongsToJournal;
+    
+    private transient Journal belongsToJournal;
     
     
     public Page() {
