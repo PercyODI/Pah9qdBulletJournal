@@ -1,13 +1,12 @@
 package pah9qdbulletjournal;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,18 +23,17 @@ import javafx.scene.control.TitledPane;
 //
 //
 public class Journal{
+    @Expose
     private String name;
+    
+    @Expose
     private String description;
     
-    @JsonManagedReference
-//    @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
-    @JsonDeserialize(as=FXCollections.observableArrayList().class)
+    @Expose
     private ObservableList<Page> pages = FXCollections.observableArrayList();
     
-    @JsonIgnore
     private static ArrayList<Journal> journals = new ArrayList<>();
     
-    @JsonIgnore
     private TitledPane titledPane;
     
     public Journal() {
@@ -92,11 +90,10 @@ public class Journal{
     }
     
     public void saveJournalToFile(File file) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(file, this);
-//        ObjectMapper mapper = new ObjectMapper();
-//        String json = mapper.writeValueAsString(this);
-//        System.out.println(json);
+        Writer writer = new FileWriter(file);
+//        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(this));
     }
     
     public void loadJournalFromFile() {
