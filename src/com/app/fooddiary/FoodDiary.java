@@ -3,6 +3,7 @@ package com.app.fooddiary;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
+import org.json.simple.JSONObject;
 import pah9qdbulletjournal.Page;
 import pah9qdbulletjournal.Page;
 
@@ -20,6 +21,16 @@ public class FoodDiary extends Page {
 
     @Override
     public FXMLLoader getFXMLLoader() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public JSONObject convertToJson() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void parseJson() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

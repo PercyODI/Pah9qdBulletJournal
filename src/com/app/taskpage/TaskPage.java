@@ -5,6 +5,8 @@ package com.app.taskpage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import pah9qdbulletjournal.Page;
 
 //
@@ -46,5 +48,26 @@ public class TaskPage extends Page{
     @Override
     public FXMLLoader getFXMLLoader() {
         return new FXMLLoader(getClass().getResource(TaskPage.FXMLFILENAME));
+    }
+
+    @Override
+    public JSONObject convertToJson() {
+        JSONObject obj = new JSONObject();
+        obj.put("class", getClass().getName());
+        obj.put("name", name);
+        obj.put("description", description);
+        
+        JSONArray taskArray = new JSONArray();
+        tasks.stream().forEach((task) -> {
+            taskArray.add(task.convertToJson());
+        });
+        obj.put("tasks", taskArray);
+        
+        return obj;
+    }
+
+    @Override
+    public void parseJson() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

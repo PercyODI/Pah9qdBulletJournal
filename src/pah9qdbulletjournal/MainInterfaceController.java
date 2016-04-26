@@ -35,6 +35,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  * FXML Controller class
@@ -152,17 +154,11 @@ public class MainInterfaceController implements Initializable {
         fileChooser.getExtensionFilters().add(new ExtensionFilter("JSON File", "*.json"));
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
+            JSONParser parser = new JSONParser();
             try
             {
-                String jsonStr = "";
-                String line = null;
-                FileReader fileReader = new FileReader(file);
-                BufferedReader bufferedReader = new BufferedReader(fileReader);
-                while((line = bufferedReader.readLine()) != null) {
-                    jsonStr += line;
-                }
-                System.out.println(jsonStr);
-                bufferedReader.close();
+                Object obj = parser.parse(new FileReader(file));
+                JSONObject jsonObject = (JSONObject) obj;
             }catch(Exception ex){
 //               String message = "Exception occurred while opening " + file.getPath() + "\nError: " + ioex;
                System.out.println(ex.getMessage());
