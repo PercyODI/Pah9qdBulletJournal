@@ -2,7 +2,6 @@ package pah9qdbulletjournal;
 
 //
 
-import com.google.gson.annotations.Expose;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -16,10 +15,8 @@ import javafx.scene.layout.Pane;
 //
 //
 public abstract class Page{
-    @Expose
     private String name;
     
-    @Expose
     private String description;
     
     
@@ -71,4 +68,6 @@ public abstract class Page{
     }
     
     public abstract FXMLLoader getFXMLLoader();
+    public abstract String convertToJson();
+    public abstract String parseJson();
 }

@@ -1,8 +1,5 @@
 package pah9qdbulletjournal;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,13 +20,10 @@ import javafx.scene.control.TitledPane;
 //
 //
 public class Journal{
-    @Expose
     private String name;
     
-    @Expose
     private String description;
     
-    @Expose
     private ObservableList<Page> pages = FXCollections.observableArrayList();
     
     private transient static ArrayList<Journal> journals = new ArrayList<>();
@@ -90,16 +84,6 @@ public class Journal{
     }
     
     public void saveJournalToFile(File file) throws IOException {
-        Writer writer = new FileWriter(file);
-//        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Page.class, new PageAdapter());
-
-        Gson gson = gsonBuilder.create();
-        
-        writer.write(gson.toJson(this));
-        writer.close();
     }
     
     public void loadJournalFromFile() {
