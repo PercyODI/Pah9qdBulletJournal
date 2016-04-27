@@ -67,7 +67,19 @@ public class TaskPage extends Page{
     }
 
     @Override
-    public void parseJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void parseJson(JSONObject jsonObject) {
+        name = (String) jsonObject.get("name");
+        description = (String) jsonObject.get("description");
+        JSONArray taskArray = (JSONArray) jsonObject.get("tasks");
+        taskArray.stream().forEach((obj) -> {
+            try {
+                JSONObject pageObj = (JSONObject) obj;
+                Task task = new Task();
+                task.parseJson(pageObj);
+                addTask(task);
+            } catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
     }
 }

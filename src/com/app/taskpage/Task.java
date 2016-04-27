@@ -71,7 +71,9 @@ public class Task implements JSONAble{
     }
 
     @Override
-    public void parseJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void parseJson(JSONObject jsonObject) {
+        name = (String) jsonObject.get("name");
+        description = (String) jsonObject.get("description");
+        completed.setValue((Boolean) jsonObject.get("completed"));
     }
 }

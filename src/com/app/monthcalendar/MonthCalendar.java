@@ -34,7 +34,7 @@ public class MonthCalendar extends Page {
     }
 
     @Override
-    public void parseJson() {
+    public void parseJson(JSONObject jsonObject) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

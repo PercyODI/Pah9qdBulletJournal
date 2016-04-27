@@ -13,5 +13,5 @@ import org.json.simple.JSONObject;
  */
 public interface JSONAble {
     public JSONObject convertToJson();
-    public void parseJson();
+    public void parseJson(JSONObject jsonObject);
 }

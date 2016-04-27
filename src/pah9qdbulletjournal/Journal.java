@@ -112,7 +112,22 @@ public class Journal{
         System.out.println(obj.toJSONString());
     }
     
-    public void loadJournalFromFile() {
+    public static Journal loadJournalFromFile(JSONObject jsonObject) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Journal openJournal = new Journal();
+        openJournal.setName((String) jsonObject.get("name"));
+        openJournal.setDescription((String) jsonObject.get("description"));
+        JSONArray pageArray = (JSONArray) jsonObject.get("pages");
+        for(Object obj : pageArray) {
+            try {
+                JSONObject pageObj = (JSONObject) obj;
+                Page page = (Page) Class.forName((String) pageObj.get("class")).newInstance();
+                page.parseJson(pageObj);
+                openJournal.addPage(page);
+            } catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return openJournal;
     }
     
     public static ArrayList<Journal> getJournals() {
