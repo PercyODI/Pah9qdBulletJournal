@@ -7,14 +7,13 @@ package pah9qdbulletjournal;
 
 import com.app.taskpage.Task;
 import com.app.taskpage.TaskPage;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,11 +31,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  * FXML Controller class
@@ -76,7 +78,7 @@ public class MainInterfaceController implements Initializable {
         this.stage = stage;
         
         // Fake journals and pages for testing
-        Journal fakeJournalOne = new Journal("Fake Journal One");
+        Journal fakeJournalOne = new Journal("Fake Journal One", "Test Des");
         addJournalToAccordian(fakeJournalOne);
         listOfJournals.add(fakeJournalOne);
         Journal fakeJournalTwo = new Journal("Fake Journal Two");
@@ -129,6 +131,22 @@ public class MainInterfaceController implements Initializable {
         });
     }
     
+    public void handleRenameJournal() {
+        if(journalAccordion.getExpandedPane() == null) {
+            System.out.println("No Journal Selected");
+        } else {
+            TextInputDialog dialog = new TextInputDialog("placeholder");
+            dialog.setTitle("Rename Journal");
+            dialog.setHeaderText("Renaming a Journal");
+            dialog.setContentText("New Journal Name:");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> {
+                ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal().setName(name);
+                journalAccordion.getExpandedPane().setText(name);
+            });
+        }
+    }
+    
     public void handleSaveJournal() throws IOException {
         if(journalAccordion.getExpandedPane() == null) {
             System.out.println("No Journal Selected");
@@ -154,16 +172,17 @@ public class MainInterfaceController implements Initializable {
         fileChooser.getExtensionFilters().add(new ExtensionFilter("JSON File", "*.json"));
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
+            JSONParser parser = new JSONParser();
             try
             {
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.registerModule(new Jdk8Module());
-                Journal openJournal = mapper.readValue(file, Journal.class);
+                Object obj = parser.parse(new FileReader(file));
+                JSONObject jsonObject = (JSONObject) obj;
+                Journal openJournal = Journal.loadJournalFromFile(jsonObject);
+                
                 addJournalToAccordian(openJournal);
-            }catch(IOException ioex)
-            {
-               String message = "Exception occurred while opening " + file.getPath() + "\nError: " + ioex;
-               System.out.println(message);
+            }catch(Exception ex){
+//               String message = "Exception occurred while opening " + file.getPath() + "\nError: " + ioex;
+               System.out.println(ex.getMessage());
             }
         }
     }

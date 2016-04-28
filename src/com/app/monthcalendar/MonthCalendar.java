@@ -3,6 +3,7 @@ package com.app.monthcalendar;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
+import org.json.simple.JSONObject;
 import pah9qdbulletjournal.Page;
 import pah9qdbulletjournal.Page;
 
@@ -24,6 +25,16 @@ public class MonthCalendar extends Page {
 
     @Override
     public FXMLLoader getFXMLLoader() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public JSONObject convertToJson() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void parseJson(JSONObject jsonObject) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
