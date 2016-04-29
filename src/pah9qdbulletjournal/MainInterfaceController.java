@@ -147,6 +147,18 @@ public class MainInterfaceController implements Initializable {
         }
     }
     
+    public void handleNewJournal() {
+        TextInputDialog dialog = new TextInputDialog("Default");
+        dialog.setTitle("New Journal");
+        dialog.setHeaderText("New Journal");
+        dialog.setContentText("New Journal Name:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> {
+            Journal newJournal = new Journal(name);
+            addJournalToAccordian(newJournal);
+        });
+    }
+    
     public void handleSaveJournal() throws IOException {
         if(journalAccordion.getExpandedPane() == null) {
             System.out.println("No Journal Selected");
@@ -184,6 +196,24 @@ public class MainInterfaceController implements Initializable {
 //               String message = "Exception occurred while opening " + file.getPath() + "\nError: " + ioex;
                System.out.println(ex.getMessage());
             }
+        }
+    }
+    
+    
+    // Task List Menus methods
+    public void handleNewTaskList() {
+        if(journalAccordion.getExpandedPane() == null) {
+            System.out.println("No Journal Selected");
+        } else {
+            TextInputDialog dialog = new TextInputDialog("Default");
+            dialog.setTitle("New Task List");
+            dialog.setHeaderText("New Tas List");
+            dialog.setContentText("New Task List Name:");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> {
+                TaskPage newTaskPage = new TaskPage(name);
+                ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal().addPage(newTaskPage);
+            });
         }
     }
     

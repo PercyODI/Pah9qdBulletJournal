@@ -13,22 +13,23 @@
       <MenuBar>
         <menus>
           <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
+               <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleSaveJournal" text="Save Journal" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpenJournal" text="Open Journal" />
+               </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Journal">
               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleNewJournal" text="New Journal" />
                   <MenuItem mnemonicParsing="false" onAction="#handleRenameJournal" text="Rename Journal" />
-                <MenuItem mnemonicParsing="false" onAction="#handleSaveJournal" text="Save Journal" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleOpenJournal" text="Open Journal" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
+            <Menu mnemonicParsing="false" text="Task List">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleNewTaskList" text="New Task List" />
+                  <MenuItem mnemonicParsing="false" text="Remove Selected Task List" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
