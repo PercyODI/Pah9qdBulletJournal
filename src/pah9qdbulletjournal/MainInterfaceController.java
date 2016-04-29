@@ -7,14 +7,12 @@ package pah9qdbulletjournal;
 
 import com.app.taskpage.Task;
 import com.app.taskpage.TaskPage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +26,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
@@ -83,7 +84,28 @@ public class MainInterfaceController implements Initializable {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent we) {
-                
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Closing BulletJournal");
+                alert.setHeaderText("You Have Unsaved Journals");
+                alert.setContentText("What would you like to do");
+
+                ButtonType saveJournalBtn = new ButtonType("Save Journals");
+                ButtonType closeWithoutSavingBtn = new ButtonType("Close Without Saving");
+                ButtonType cancelBtn = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(saveJournalBtn, closeWithoutSavingBtn, cancelBtn);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == saveJournalBtn){
+                    for(TitledPane journalPane : journalAccordion.getPanes()) {
+                        Journal journal = ((JournalTitledPane)journalPane).getJournal();
+                        saveJournal(journal);
+                    }
+                } else if (result.get() == closeWithoutSavingBtn) {
+                    // No Saving Occurs
+                } else {
+                    we.consume();
+                }
             }
         });
         
@@ -128,10 +150,17 @@ public class MainInterfaceController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Page> observable, Page oldValue, Page newValue) {
                 try {
-                    FXMLLoader loader = newValue.getFXMLLoader();
-                    Parent root = (Parent) loader.load();
-                    PageUIController controller = loader.getController();
-                    controller.ready(stage, newValue);
+                    FXMLLoader loader;
+                    Parent root;
+                    if(newValue.getFxmlLoader() == null) {
+                        loader = newValue.createFXMLLoader();
+                        root = (Parent) loader.load();
+                        PageUIController controller = loader.getController();
+                        controller.ready(stage, newValue);
+                    } else {
+                        loader = newValue.getFxmlLoader();
+                        root = (Parent) loader.load();
+                    }
                     scrollPane.setContent((Pane)root);
                 } catch (IOException ex) {
                     Logger.getLogger(MainInterfaceController.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,19 +203,23 @@ public class MainInterfaceController implements Initializable {
             displayNoJournalSelectedAlert();
         } else {
             Journal savingJournal = ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal();
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(new ExtensionFilter("JSON File", "*.json"));
-            fileChooser.setInitialFileName(savingJournal.getName());
-            File file = fileChooser.showSaveDialog(stage);
-            if (file != null) {
-                try
-                {
-                    savingJournal.saveJournalToFile(file);
-                }catch(IOException ioex)
-                {
-                   String message = "Exception occurred while opening " + file.getPath();
-                   displayErrorAlert(message);
-                }
+            saveJournal(savingJournal);
+        }
+    }
+    
+    public void saveJournal(Journal journal) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("JSON File", "*.json"));
+        fileChooser.setInitialFileName(journal.getName());
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            try
+            {
+                journal.saveJournalToFile(file);
+            }catch(IOException ioex)
+            {
+               String message = "Exception occurred while opening " + file.getPath();
+               displayErrorAlert(message);
             }
         }
     }
@@ -226,14 +259,6 @@ public class MainInterfaceController implements Initializable {
                 TaskPage newTaskPage = new TaskPage(name);
                 ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal().addPage(newTaskPage);
             });
-        }
-    }
-    
-    public void handleDebug(ActionEvent event) {
-        if(journalAccordion.getExpandedPane() == null) {
-            displayNoJournalSelectedAlert();
-        } else {
-            System.out.println(((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal().getName());
         }
     }
     

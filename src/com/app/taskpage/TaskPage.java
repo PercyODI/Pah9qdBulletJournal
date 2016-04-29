@@ -46,7 +46,7 @@ public class TaskPage extends Page{
     }
 
     @Override
-    public FXMLLoader getFXMLLoader() {
+    public FXMLLoader createFXMLLoader() {
         return new FXMLLoader(getClass().getResource(TaskPage.FXMLFILENAME));
     }
 

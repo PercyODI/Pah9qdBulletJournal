@@ -19,6 +19,15 @@ public abstract class Page implements JSONAble{
     protected String name;
     protected String description;
     private Journal belongsToJournal;
+    private FXMLLoader fxmlLoader = null;
+
+    public FXMLLoader getFxmlLoader() {
+        return fxmlLoader;
+    }
+
+    public void setFxmlLoader(FXMLLoader fxmlLoader) {
+        this.fxmlLoader = fxmlLoader;
+    }
     
     public Page() {
     }
@@ -64,5 +73,5 @@ public abstract class Page implements JSONAble{
         this.belongsToJournal = belongsToJournal;
     }
     
-    public abstract FXMLLoader getFXMLLoader();
+    public abstract FXMLLoader createFXMLLoader();
 }
