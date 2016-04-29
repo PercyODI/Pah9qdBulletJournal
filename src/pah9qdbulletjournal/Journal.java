@@ -28,9 +28,9 @@ public class Journal{
     
     private ObservableList<Page> pages = FXCollections.observableArrayList();
     
-    private transient static ArrayList<Journal> journals = new ArrayList<>();
+    private static ArrayList<Journal> journals = new ArrayList<>();
     
-    private transient TitledPane titledPane;
+    private TitledPane titledPane;
     
     public Journal() {
         journals.add(this);
@@ -100,16 +100,10 @@ public class Journal{
         obj.put("pages", pageArray);
         
         // Save to file
-        try {
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(obj.toJSONString());
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        
-        System.out.println(obj.toJSONString());
+        FileWriter fileWriter = new FileWriter(file);
+        fileWriter.write(obj.toJSONString());
+        fileWriter.flush();
+        fileWriter.close();
     }
     
     public static Journal loadJournalFromFile(JSONObject jsonObject) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -118,14 +112,10 @@ public class Journal{
         openJournal.setDescription((String) jsonObject.get("description"));
         JSONArray pageArray = (JSONArray) jsonObject.get("pages");
         for(Object obj : pageArray) {
-            try {
-                JSONObject pageObj = (JSONObject) obj;
-                Page page = (Page) Class.forName((String) pageObj.get("class")).newInstance();
-                page.parseJson(pageObj);
-                openJournal.addPage(page);
-            } catch(Exception e) {
-                System.out.println(e.getMessage());
-            }
+            JSONObject pageObj = (JSONObject) obj;
+            Page page = (Page) Class.forName((String) pageObj.get("class")).newInstance();
+            page.parseJson(pageObj);
+            openJournal.addPage(page);
         }
         return openJournal;
     }
