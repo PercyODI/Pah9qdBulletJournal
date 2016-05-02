@@ -75,7 +75,6 @@ public class MainInterfaceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }    
 
     void ready(Stage stage) {
@@ -84,45 +83,35 @@ public class MainInterfaceController implements Initializable {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent we) {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Closing BulletJournal");
-                alert.setHeaderText("You Have Unsaved Journals");
-                alert.setContentText("What would you like to do");
+                if(!journalAccordion.getPanes().isEmpty()) {
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setTitle("Closing BulletJournal");
+                    alert.setHeaderText("You Have Unsaved Journals");
+                    alert.setContentText("What would you like to do");
 
-                ButtonType saveJournalBtn = new ButtonType("Save Journals");
-                ButtonType closeWithoutSavingBtn = new ButtonType("Close Without Saving");
-                ButtonType cancelBtn = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+                    ButtonType saveJournalBtn = new ButtonType("Save Journals");
+                    ButtonType closeWithoutSavingBtn = new ButtonType("Close Without Saving");
+                    ButtonType cancelBtn = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-                alert.getButtonTypes().setAll(saveJournalBtn, closeWithoutSavingBtn, cancelBtn);
+                    alert.getButtonTypes().setAll(saveJournalBtn, closeWithoutSavingBtn, cancelBtn);
 
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == saveJournalBtn){
-                    for(TitledPane journalPane : journalAccordion.getPanes()) {
-                        Journal journal = ((JournalTitledPane)journalPane).getJournal();
-                        saveJournal(journal);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == saveJournalBtn){
+                        for(TitledPane journalPane : journalAccordion.getPanes()) {
+                            Journal journal = ((JournalTitledPane)journalPane).getJournal();
+                            saveJournal(journal);
+                        }
+                    } else if (result.get() == closeWithoutSavingBtn) {
+                        // No Saving Occurs
+                    } else {
+                        we.consume();
                     }
-                } else if (result.get() == closeWithoutSavingBtn) {
-                    // No Saving Occurs
-                } else {
-                    we.consume();
                 }
             }
         });
-        
-        // Fake journals and pages for testing
-        Journal fakeJournalOne = new Journal("Fake Journal One", "Test Des");
-        addJournalToAccordian(fakeJournalOne);
-        listOfJournals.add(fakeJournalOne);
-        Journal fakeJournalTwo = new Journal("Fake Journal Two");
-        addJournalToAccordian(fakeJournalTwo);
-        TaskPage taskPageOne = new TaskPage("Fake Page One");
-        taskPageOne.addTask(new Task("Create a new journal"));
-        taskPageOne.addTask(new Task("Delete a journal!"));
-        fakeJournalOne.addPage(taskPageOne);
-        fakeJournalOne.addPage(new TaskPage("Fake Page Two", "With a Description!"));
     }
     
-    public void addJournalToAccordian(Journal journal) {
+    public JournalTitledPane addJournalToAccordian(Journal journal) {
         ListView<Page> listView = new ListView<>(journal.getPages());
         
         JournalTitledPane titledPage = new JournalTitledPane(journal.getName(), listView);
@@ -167,13 +156,16 @@ public class MainInterfaceController implements Initializable {
                 }
             }
         });
+        
+        journalAccordion.setExpandedPane((TitledPane)titledPage);
+        return titledPage;
     }
     
     public void handleRenameJournal() {
         if(journalAccordion.getExpandedPane() == null) {
             displayNoJournalSelectedAlert();
         } else {
-            Journal renamingJournal = ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal();
+            Journal renamingJournal = getCurrentSelectedJournal();
             TextInputDialog dialog = new TextInputDialog(renamingJournal.getName());
             dialog.setTitle("Rename Journal");
             dialog.setHeaderText("Renaming a Journal");
@@ -194,7 +186,8 @@ public class MainInterfaceController implements Initializable {
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(name -> {
             Journal newJournal = new Journal(name);
-            addJournalToAccordian(newJournal);
+            JournalTitledPane journalTitledPane = addJournalToAccordian(newJournal);
+            newJournal.addPage(new TaskPage("Default Task Page"));
         });
     }
     
@@ -202,7 +195,7 @@ public class MainInterfaceController implements Initializable {
         if(journalAccordion.getExpandedPane() == null) {
             displayNoJournalSelectedAlert();
         } else {
-            Journal savingJournal = ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal();
+            Journal savingJournal = getCurrentSelectedJournal();
             saveJournal(savingJournal);
         }
     }
@@ -234,7 +227,7 @@ public class MainInterfaceController implements Initializable {
             {
                 Object obj = parser.parse(new FileReader(file));
                 JSONObject jsonObject = (JSONObject) obj;
-                Journal openJournal = Journal.loadJournalFromFile(jsonObject);
+                Journal openJournal = Journal.loadJournalFromJsonObject(jsonObject);
                 
                 addJournalToAccordian(openJournal);
             }catch(Exception ex){
@@ -244,6 +237,12 @@ public class MainInterfaceController implements Initializable {
         }
     }
     
+    public void handleCloseJournal() {
+        JournalTitledPane journalTitledPane = (JournalTitledPane)journalAccordion.getExpandedPane();
+        Journal journalToClose = journalTitledPane.getJournal();
+        saveJournal(journalToClose);
+        journalAccordion.getPanes().remove((TitledPane)journalTitledPane);
+    }
     
     // Task List Menus methods
     public void handleNewTaskList() {
@@ -257,7 +256,7 @@ public class MainInterfaceController implements Initializable {
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(name -> {
                 TaskPage newTaskPage = new TaskPage(name);
-                ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal().addPage(newTaskPage);
+                getCurrentSelectedJournal().addPage(newTaskPage);
             });
         }
     }
@@ -277,5 +276,9 @@ public class MainInterfaceController implements Initializable {
         //alert.setHeaderText("Error!");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    
+    private Journal getCurrentSelectedJournal() {
+        return ((JournalTitledPane)journalAccordion.getExpandedPane()).getJournal();
     }
 }

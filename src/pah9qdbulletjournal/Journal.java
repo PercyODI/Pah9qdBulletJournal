@@ -106,7 +106,7 @@ public class Journal{
         fileWriter.close();
     }
     
-    public static Journal loadJournalFromFile(JSONObject jsonObject) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public static Journal loadJournalFromJsonObject(JSONObject jsonObject) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Journal openJournal = new Journal();
         openJournal.setName((String) jsonObject.get("name"));
         openJournal.setDescription((String) jsonObject.get("description"));
