@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="302.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pah9qdbulletjournal.AboutWindowController">
+   <children>
+      <Label layoutX="111.0" layoutY="14.0" text="BulletJournal" AnchorPane.rightAnchor="10.0">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="218.0" layoutY="58.0" text="Version 1.0" AnchorPane.rightAnchor="10.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Text layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BulletJornal is a JavaFX application built to mimic the ability to create pencil and paper Bullet Journals. Version 1.0 supports Task Pages, but future versions are planned to include calendars, diaries, and freeform pages." wrappingWidth="330.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Label layoutX="90.0" layoutY="189.0" text="About the Programmer" AnchorPane.rightAnchor="10.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Text layoutX="10.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pearse Hutson is a Senior Information Technology student at the University of Missouri, Columbia. He is passionate about web technologies, and wants to create technology and software to benefit primary and secondary educators." wrappingWidth="330.0" />
+   </children>
+</AnchorPane>

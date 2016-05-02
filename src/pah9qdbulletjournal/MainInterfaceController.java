@@ -5,6 +5,7 @@
  */
 package pah9qdbulletjournal;
 
+import com.app.taskpage.NewTaskUIController;
 import com.app.taskpage.Task;
 import com.app.taskpage.TaskPage;
 import java.io.File;
@@ -24,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -39,6 +41,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.json.simple.JSONObject;
@@ -52,8 +55,6 @@ import org.json.simple.parser.JSONParser;
 public class MainInterfaceController implements Initializable {
 
     private Stage stage;
-
-    private ArrayList<Journal> listOfJournals = new ArrayList<>();
     
     @FXML
     private Accordion journalAccordion;
@@ -258,6 +259,24 @@ public class MainInterfaceController implements Initializable {
                 TaskPage newTaskPage = new TaskPage(name);
                 getCurrentSelectedJournal().addPage(newTaskPage);
             });
+        }
+    }
+    
+    public void handleAbout() {
+        Stage newStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AboutWindow.fxml"));
+        Parent root;
+        try {
+            root = (Parent) loader.load();
+            AboutWindowController controller = loader.getController();
+
+            newStage.setScene(new Scene(root));
+            newStage.setTitle("About BulletJournal");
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.initOwner(stage);
+            newStage.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(MainInterfaceController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

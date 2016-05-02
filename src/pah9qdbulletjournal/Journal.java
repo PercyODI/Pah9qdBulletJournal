@@ -113,6 +113,7 @@ public class Journal{
         JSONArray pageArray = (JSONArray) jsonObject.get("pages");
         for(Object obj : pageArray) {
             JSONObject pageObj = (JSONObject) obj;
+            // Creates a concreate Page class from the class string found in the JSON
             Page page = (Page) Class.forName((String) pageObj.get("class")).newInstance();
             page.parseJson(pageObj);
             openJournal.addPage(page);
@@ -134,10 +135,5 @@ public class Journal{
 
     public void setTitledPane(TitledPane titledPane) {
         this.titledPane = titledPane;
-    }
-    
-    public static Journal parseJson() {
-        
-        return null;
     }
 }
