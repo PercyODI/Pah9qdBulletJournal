@@ -5,21 +5,17 @@
  */
 package pah9qdbulletjournal;
 
-import com.app.taskpage.NewTaskUIController;
-import com.app.taskpage.Task;
 import com.app.taskpage.TaskPage;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -207,8 +203,7 @@ public class MainInterfaceController implements Initializable {
         fileChooser.setInitialFileName(journal.getName());
         File file = fileChooser.showSaveDialog(stage);
         if (file != null) {
-            try
-            {
+            try {
                 journal.saveJournalToFile(file);
             }catch(IOException ioex)
             {
@@ -224,8 +219,7 @@ public class MainInterfaceController implements Initializable {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             JSONParser parser = new JSONParser();
-            try
-            {
+            try {
                 Object obj = parser.parse(new FileReader(file));
                 JSONObject jsonObject = (JSONObject) obj;
                 Journal openJournal = Journal.loadJournalFromJsonObject(jsonObject);
